@@ -1,4 +1,4 @@
-name: CheckHomeworks
+name: DDLReminder
 on:
   workflow_dispatch:
   push:
@@ -6,7 +6,7 @@ on:
   watch:
     types: [ started ]
   schedule:
-    - cron: 45 22 * * *
+    - cron: 45 */12 * * *
 
 jobs:
   HomeworkCheck:
