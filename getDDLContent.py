@@ -19,10 +19,13 @@ class ZJULogin(object):
         password: (str) 浙大统一认证平台密码
         sess: (requests.Session) 统一的session管理
     """
-    # 请求头，自己获取吧
+    
+    # 请求头，自己按F12获取吧
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
     }
+    
+    # URL
     BASE_URL = "https://courses.zju.edu.cn/api/todos?no-intercept=true"
     LOGIN_URL = "https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fservice.zju.edu.cn%2F"
 
@@ -85,11 +88,14 @@ class getdll(ZJULogin):
             raise LoginError('获取数据失败')
 
     def compare(self, event):
+        # 获取当前UTC时间
         daynow = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         timenow = time.strftime('%H:%M', time.localtime(time.time()))
 
         event_time = str(event.get('end_time'))
-        endtime = re.findall('(.*)T(.*?):00Z', event_time)
+        endtime = re.findall('(.*)T(.*?):00Z', event_time) # 这里用到正则提取，贪婪的概念可以自行搜索
+        
+        # 有可能event获取的内容为空，因此需要进行过滤
         if not endtime:
             return
         else:
@@ -98,8 +104,10 @@ class getdll(ZJULogin):
         endday = datetime.datetime.strptime(endtime[0], '%Y-%m-%d')
         endhour = datetime.datetime.strptime(endtime[1], '%H:%M')
 
-        # 时区问题，endhour加八小时，GitHub上的时间是UTC时间,而不是北京时间
-#         endhour += datetime.timedelta(hours=8)
+        # 时区问题，endhour加八小时；GitHub上的时间是UTC时间,而不是北京时间，本机调试记得把下面注释去掉
+        # endhour += datetime.timedelta(hours=8)
+        
+        # 获得剩余天数，剩余小时数，剩余分钟数
         dayleft = (
             endday-datetime.datetime.strptime(daynow, '%Y-%m-%d')).days
         hourleft = (
@@ -121,9 +129,6 @@ class getdll(ZJULogin):
     
     def run(self):
         self.getddl()
-
-    
-
 
 if __name__ == '__main__':
     username = os.getenv('ZJU_USERNAME')
