@@ -46,4 +46,4 @@ jobs:
         TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
         TG_PROXY_AUTH: ${{ secrets.TG_PROXY_AUTH }}
 
-      run: python3 GetDDL.py
+      run: python3 getDDLContent.py
