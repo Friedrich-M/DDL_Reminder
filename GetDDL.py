@@ -4,7 +4,7 @@ from threading import Thread
 import requests
 import re
 import time
-from notify import dingding
+import dingding
 
 
 class LoginError(Exception):
