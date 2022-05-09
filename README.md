@@ -47,7 +47,7 @@ ZJU_PASSWORD : 'password',
 watch:
     types: [ started ]
   schedule:
-    - cron: 45 22 * * *
+    - cron: 45 */12 * * * # 相当于每天上午8：45和下午8：45各进行一次DDL提醒
 ```
 
 - 注意，cron表达式时间为UTC时间，与北京时间相差八小时
