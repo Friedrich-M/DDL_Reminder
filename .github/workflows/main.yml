@@ -33,17 +33,4 @@ jobs:
         DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
         DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
 
-        FSKEY: ${{ secrets.FSKEY }}
-
-        PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
-        PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER }}
-
-        PUSH_KEY: ${{ secrets.PUSH_KEY }}
-
-        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-        TG_USER_ID: ${{ secrets.TG_USER_ID }}
-        TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST }}
-        TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
-        TG_PROXY_AUTH: ${{ secrets.TG_PROXY_AUTH }}
-
       run: python3 getDDLContent.py
