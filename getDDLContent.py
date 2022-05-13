@@ -5,6 +5,8 @@ import requests
 import re
 import time
 import dingding
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 
 class LoginError(Exception):
@@ -33,10 +35,23 @@ class ZJULogin(object):
         self.username = username
         self.password = password
         self.sess = requests.Session()
+        
+        # 这将GETURL 和重试 3 次，以防requests.exceptions.ConnectionError. 
+        # backoff_factor将有助于在尝试之间应用延迟，以避免在定期请求配额的情况下再次失败。
+        self.retry = Retry(connect=3, backoff_factor=0.5)
+        self.adaptor = HTTPAdapter(max_retries=self.retry)
+        self.sess.mount('http://', self.adaptor)
+        self.sess.mount('https://', self.adaptor)
 
     def login(self):
         """Login to ZJU platform"""
-        res = self.sess.get(self.LOGIN_URL)
+        try:
+            res = self.sess.get(self.BASE_URL)
+        except res.exception.ConnectionError:
+            res.status_code = "Connection refused"
+         
+        time.sleep(1)   # 等待一秒
+            
         execution = re.search(
             'name="execution" value="(.*?)"', res.text).group(1)
         res = self.sess.get(
