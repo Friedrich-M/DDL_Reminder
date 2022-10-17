@@ -129,7 +129,7 @@ class getdll(ZJULogin):
         minuteleft = (
             endhour-datetime.datetime.strptime(timenow, '%H:%M')).seconds//60-hourleft*60
         
-        if dayleft > 0:
+        if dayleft > 0 and dayleft < 7:
             self.reminder(event.get('course_name')+'作业 ' +
                   event.get('title') + ' : 剩余时间'+str(dayleft)+'天')
             print(event.get('course_name')+'作业 ' +
