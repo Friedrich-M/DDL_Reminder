@@ -22,7 +22,6 @@ class ZJULogin(object):
         sess: (requests.Session) 统一的session管理
     """
     
-    # 请求头，自己按F12获取吧
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
     }
@@ -133,8 +132,12 @@ class getdll(ZJULogin):
         if dayleft > 0:
             self.reminder(event.get('course_name')+'作业 ' +
                   event.get('title') + ' : 剩余时间'+str(dayleft)+'天')
+            print(event.get('course_name')+'作业 ' +
+                  event.get('title') + ' : 剩余时间'+str(dayleft)+'天')
         if dayleft == 0 and hourleft > 0:
             self.reminder(event.get('course_name')+'作业 ' +
+                  event.get('title') + ' : 剩余时间'+str(round(hourleft))+'小时' + str(minuteleft)+'分钟')
+            print(event.get('course_name')+'作业 ' +
                   event.get('title') + ' : 剩余时间'+str(round(hourleft))+'小时' + str(minuteleft)+'分钟')
             self.reminder('再不写真要寄了')
 
